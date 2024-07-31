@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const [reverse, setReverse] = useState(false);
@@ -8,6 +8,18 @@ function App() {
   const reverseClass = reverse ? 'App-logo-reverse' : '';
   const handleReverse = () => { setReverse(() => (!reverse)) };
   const handleCounter = () => { setCounter((c) => c + 1) };
+
+  useEffect(() => {
+    console.log('componentDidUpdate - executa toda a vez que component atualiza');
+  });
+
+  useEffect(() => {
+    console.log('componentDidMount - executa 1x');
+  }, []);
+
+  useEffect(() => {
+    console.log('componentDidMount Reverse - executa toda a vez que a dependencia atualizar');
+  }, [reverse]);
 
   return (
     <div className="App">
