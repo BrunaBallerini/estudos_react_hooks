@@ -1,13 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import React from 'react';
+
+const Button = React.memo(function Button({ incrementButton }) {
+  return <button className='button' onClick={() => incrementButton(10)}>Increment</button>;
+});
+
 
 function App() {
   const [reverse, setReverse] = useState(false);
   const [counter, setCounter] = useState(0);
   const reverseClass = reverse ? 'App-logo-reverse' : '';
   const handleReverse = () => { setReverse(() => (!reverse)) };
-  const handleCounter = () => { setCounter((c) => c + 1) };
+  const handleCounter = useCallback((num) => { setCounter((c) => c + num) }, []);
 
   useEffect(() => {
     console.log('componentDidUpdate - executa toda a vez que component atualiza');
@@ -27,7 +33,8 @@ function App() {
         <img src={logo} className={`App-logo ${reverseClass}`} alt="logo" />
         <h2>Contador: {counter}</h2>
         <button className='button' type='button' onClick={handleReverse}>Reverse</button>
-        <button className='button' type='button' onClick={handleCounter}>Increment</button>
+        <button className='button' onClick={() => handleCounter(10)}>Increment</button>
+        <Button incrementButton={handleCounter} />
       </header>
     </div>
   );
